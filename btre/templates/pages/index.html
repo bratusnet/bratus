@@ -1,0 +1,157 @@
+{% extends 'base.html' %} 
+
+{% load humanize %} 
+
+{% block title %} | Welcome {% endblock %}
+
+{% block content %} 
+  <!-- Showcase -->
+  <section id="showcase">
+    <div class="container text-center">
+      <div class="home-search p-5">
+        <div class="overlay p-5">
+          <h1 class="display-4 mb-4">
+            Jokes Searching Just Got So Easy
+          </h1>
+          <p class="lead">“A joke is an epigram on the death of a feeling.”
+            ― Friedrich Nietzsche</p>
+          <div class="search">
+            <form action="{% url 'search' %}">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-8 mb-3">
+                  <label class="sr-only">Keywords</label>
+                  <input type="text" name="keywords" class="form-control" placeholder="Your keywords here">
+                </div>
+
+
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Types</label>
+                  <select name="jtype" class="form-control">
+                   <option selected="true" disabled="disabled">Types (All)</option>
+                   {% for key,value in joke_choices.items %}
+                      <option value="{{ key }}">{{ value }}</option>
+                   {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Search now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<br>
+  <!-- Alerts -->
+ {% include 'partials/_alerts.html' %}
+  <!-- Listings -->
+  <section id="jokes" class="py-10" >
+    <div class="container">
+      <h3 class="text-center mb-10">Latest jokes</h3><!-- 
+      <div class="row">
+        {% if jokes %}
+          {% for joke in jokes %}
+                       
+            <div class="col-md-8 col-lg-8 mb-4">
+              <div class="card listing-preview">
+
+                  <div class="row py-2 text-secondary">
+                    <div class="col-12">
+                      <i class="fas lead"></i> {{ joke.jtype }} joke</div>
+                      
+                  </div>
+
+                  <div class="row py-2 text-secondary">
+                    <div class="col-12">
+                      <i class="fas fa-user"></i> Posted by {{ joke.name }}</div>
+                  </div>
+                  <div class="row py-2 text-secondary">
+                    <div class="col-12">
+                      <i class="fas fa-clock"></i> On {{ joke.contact_date }}</div>
+                  </div>
+                  <hr>
+                  <div class="row py-3 text-secondary">
+                    <div class="col-12">
+                      <i class="lead"></i> {{ joke.joke |linebreaks}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          {% endfor %}
+        {% else %}
+         <div class="col-md-12">
+           <p>No jokes posted so far</p>
+         </div>
+        {% endif %}-->
+
+        <section id="dashboard" class="py-4">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                
+                {% if jokes %}
+                  
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col">Posted by</th>
+                        <th scope="col">On</th>
+                        <th scope="col">Joke</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for joke in jokes %}
+                        <tr>
+                          <td> {{ joke.jtype }}</td>
+                          <td class="fas fa-user"> {{ joke.name }}</td>
+                          <td > {{ joke.contact_date }} </td>
+                          <td>{{ joke.joke |linebreaks}} </td>
+                        </tr>
+                        
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  {% else %}
+                    <p>You have not made any posts yet...</p>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="py-5 bg-secondary text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <i class="fas fa-comment fa-4x mr-4"></i>
+          <hr>
+          <h3>Bratus_NET</h3>
+          <p>The place made for fun, relax and chill. Browse, search and share your jokes here.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-home fa-4x mr-4"></i>
+          <hr>
+          <h3>Series y Peliculas</h3>
+          <p>Quieres series y películas en español latino? Este es el lugar.<a href="https://t.me/musicmoviesa"> !!! MusicMoviesA🤡 !!! </a></p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-suitcase fa-4x mr-4"></i>
+          <hr>
+          <h3>!!! Trade with me !!!</h3>
+          <p>Start making real money now by joining largest tradest community <a href="https://etoro.tw/2mlgtU9"> here.</a> I am already in )</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | Search Results {% endblock %}
+
+{% block content %}
+
+<section id="showcase-inner" class="showcase-search text-white py-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <form action="{% url 'search' %}">
+            <!-- Form Row 1 -->
+            <div class="form-row">
+              <div class="col-md-8 mb-3">
+                <label class="sr-only">Keywords</label>
+                <input type="text" name="keywords" class="form-control" placeholder="Your keywords here" value="{{values.keywords}}">
+              </div>
+
+
+
+              <div class="col-md-4 mb-3">
+                <label class="sr-only">Types</label>
+                <select name="jtype" class="form-control">
+                 <option selected="true" disabled="disabled">Types (All)</option>
+                 {% for key,value in joke_choices.items %}
+                    <option value="{{ key }}"
+                     {% if key == values.jtype %}
+                       selected
+                     {% endif %}
+                    >{{ value }}</option>
+                 {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <button class="btn btn-secondary btn-block mt-4" type="submit">Search now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="index.html">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="listings.html">Browse Listings</a>
+          </li>
+          <li class="breadcrumb-item active"> Search Results</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listings -->
+  <section id="listings" class="py-4">
+    <div class="container">
+      <div class="row">
+        {% if jokes %}
+                  
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">Posted by</th>
+              <th scope="col">On</th>
+              <th scope="col">Joke</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for joke in jokes %}
+              <tr>
+                <td> {{ joke.jtype }}</td>
+                <td class="fas fa-user"> {{ joke.name }}</td>
+                <td > {{ joke.contact_date }} </td>
+                <td>{{ joke.joke |linebreaks}} </td>
+              </tr>
+              
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+          <p>No jokes available so far...</p>
+        {% endif %}
+
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}

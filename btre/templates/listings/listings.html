@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} | Brows Property Listings {% endblock %}
+
+{% block content %}
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">Browse Our Jokes</h1>
+          <p class="lead">Just remember, laughing makes you live longer !</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'index' %}">
+              <i class="fas fa-home"></i> Home</a>
+          </li>
+          <li class="breadcrumb-item active"> Browse Listings</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Listings -->
+  <section id="listings" class="py-4">
+    <div class="container">
+      <div class="row">
+        {% if jokes %}
+                  
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Type</th>
+              <th scope="col">Posted by</th>
+              <th scope="col">On</th>
+              <th scope="col">Joke</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for joke in jokes %}
+              <tr>
+                <td> {{ joke.jtype }}</td>
+                <td class="fas fa-user"> {{ joke.name }}</td>
+                <td > {{ joke.contact_date }} </td>
+                <td>{{ joke.joke |linebreaks}} </td>
+              </tr>
+              
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+          <p>No jokes available so far...</p>
+        {% endif %}
+
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          {% if jokes.has_other_pages %}
+          <ul class="pagination">
+             {% if jokes.has_previous %}
+               <li class="page-item">
+                 <a href="?page={{jokes.previous_page_number}}" class="page-link">&laquo;</a>
+               </li>
+             {% else %}  
+              <li class="page-item disabled">
+                <a class="page-link">&laquo;</a>
+              </li>
+             {% endif %}
+             {% for i in jokes.paginator.page_range %}
+              {% if jokes.number == i %}
+                <li class="page-item active">
+                 <a class="page-link">{{i}}</a>
+                </li>
+              {% else %}
+               <li class="page-item">
+                 <a href="?page={{i}}" class="page-link">{{i}}</a>
+               </li>
+              {% endif %}
+             {% endfor %}
+             {% if jokes.has_next %}
+             <li class="page-item">
+               <a href="?page={{jokes.next_page_number}}" class="page-link">&raquo;</a>
+             </li>
+           {% else %}  
+            <li class="page-item disabled">
+              <a class="page-link">&raquo;</a>
+            </li>
+           {% endif %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
